@@ -1,0 +1,23 @@
+*.gem
+*.rbc
+.bundle
+.config
+.env
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
+log/
+db/*.sqlite3
+db/schema.rb
+*.sublime*
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
