@@ -10,6 +10,9 @@ class Message < ActiveRecord::Base
   end
 
   def self.since id
+    if id.respond_to?(:id)
+      id = id.id
+    end
     where('messages.id > ?', id)
   end
 end

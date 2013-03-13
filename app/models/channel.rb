@@ -5,6 +5,11 @@ class Channel < ActiveRecord::Base
 
   attr_accessible :key, :name
 
+  def cleanup
+    msg_lifetime = Rails.application.config.message_lifetime
+    messages.where('created_at < ?', msg_lifetime.ago).delete_all
+  end
+
   ##############################################################################
   private
   ##############################################################################

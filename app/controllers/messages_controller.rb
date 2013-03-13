@@ -16,6 +16,7 @@ class MessagesController < ApplicationController
   def create
     channel = Channel.where(key: params[:channel_id]).first
     if channel
+      channel.cleanup
       message = Message.new(params[:message])
       message.channel = channel
 

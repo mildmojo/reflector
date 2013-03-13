@@ -8,6 +8,8 @@ gem 'rails', '~> 3.2.11'
 group :development do
   gem 'pry'
   gem 'sqlite3'
+  gem 'timecop'
+  gem 'test-unit'
 end
 
 group :production do

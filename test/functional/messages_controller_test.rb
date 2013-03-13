@@ -56,10 +56,19 @@ class MessagesControllerTest < ActionController::TestCase
     message_ids = json_body['messages'].map { |m| m['id'] }
 
     assert_includes message_ids, new_id
-    assert_not_includes message_ids, last_seen_id
+    assert_not_include message_ids, last_seen_id
   end
 
   test 'should delete old messages' do
+    Timecop.travel(Time.now + 5.minutes) do
+      post :create, format: :json, channel_id: @channel.key,
+                                   message: { body: 'new_message' }
+    end
+
+    get :index, format: :json, channel_id: @channel.key
+    message_bodies = json_body['messages'].map { |m| m['body'] }
+
+    assert_not_include message_bodies, @message.body
   end
 
 

@@ -2,6 +2,9 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
+require 'timecop'
+require 'test-unit'
+
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
   #
@@ -10,6 +13,19 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  class VerificationError < StandardError; end
+
+  def verify(bool, msg = nil)
+    unless bool
+      raise VerificationError, msg
+    end
+  end
+
+  def verify_false(bool, msg = nil)
+    verify !bool, msg
+  end
+end
+
 class ActiveRecord::Base
   mattr_accessor :shared_connection
   @@shared_connection = nil
@@ -24,4 +40,5 @@ end
 ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
 # Fix 'table not found' errors for in-memory SQLite DB.
+ActiveRecord::Schema.verbose = false
 load Rails.root.join('db/schema.rb')

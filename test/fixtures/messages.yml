@@ -3,3 +3,7 @@
 aloha:
   channel:  game
   body:     aloha
+
+goodbye:
+  channel:  game
+  body:     goodbye
