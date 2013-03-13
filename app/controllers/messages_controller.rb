@@ -15,14 +15,17 @@ class MessagesController < ApplicationController
 
   def create
     channel = Channel.where(key: params[:channel_id]).first
-    message = Message.new(params[:message])
-    message.channel = channel
+    if channel
+      message = Message.new(params[:message])
+      message.channel = channel
 
-    if message.save
-      render json: message
+      if message.save
+        render json: message
+      else
+        render json: { errors: message.errors.messages }
+      end
     else
-      render json: { errors: message.errors.messages }
+      render json: { errors: "Channel not found: #{params[:channel_id]}" }
     end
   end
-
 end
