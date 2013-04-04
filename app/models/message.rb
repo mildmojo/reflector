@@ -1,7 +1,7 @@
 class Message < ActiveRecord::Base
   belongs_to :channel
 
-  attr_accessible :body, :channel_id
+  attr_accessible :body
 
   validates :channel, presence: true
 
