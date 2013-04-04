@@ -1,7 +1,7 @@
 Reflector::Application.routes.draw do
 
-  resources :channels, except: :edit do
-    resources :messages, except: :edit do
+  resources :channels, except: [:edit, :new] do
+    resources :messages, except: [:edit, :new] do
       collection do
         get 'since/:last_seen_id' => 'messages#since', as: :since
       end
