@@ -8,6 +8,8 @@ Reflector::Application.routes.draw do
     end
   end
 
+  match '*path' => 'cors#options_request', constraints: { method: 'OPTIONS' }
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
