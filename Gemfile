@@ -20,6 +20,7 @@ group :deploy do
   gem 'thin'
 end
 
+gem 'forgery'
 gem 'rails-api'
 gem 'active_model_serializers', '~> 0.7.0'
 
