@@ -1,12 +1,14 @@
 class MessagesController < ApplicationController
   def index
-    messages = Message.for_channel(params[:channel_id]).all
+    channel = Channel.where(key: params[:channel_id]).first
+    messages = Message.for_channel(channel).all
 
     render json: messages
   end
 
   def since
-    messages = Message.for_channel(params[:channel_id]).
+    channel = Channel.where(key: params[:channel_id]).first
+    messages = Message.for_channel(channel).
                        since(params[:last_seen_id]).
                        all
 
@@ -16,9 +18,9 @@ class MessagesController < ApplicationController
   def create
     channel = Channel.where(key: params[:channel_id]).first
     if channel
-      channel.cleanup
+      Message.cleanup
       message = Message.new(params[:message])
-      message.channel = channel
+      message.room = channel.room
 
       if message.save
         render json: message

@@ -2,8 +2,11 @@ require 'test_helper'
 
 class MessagesControllerTest < ActionController::TestCase
   setup do
-    @channel = channels(:game)
+    @channel = channels(:client)
+    @other_channel = channels(:other_client)
     @message = messages(:aloha)
+
+    verify @other_channel.room_id == @channel.room_id
   end
 
   test 'should create message' do
@@ -36,22 +39,18 @@ class MessagesControllerTest < ActionController::TestCase
   end
 
   test 'should get message' do
-    get :index, format: :json, channel_id: @channel.key
+    get :index, format: :json, channel_id: @other_channel.key
     message_bodies = json_body['messages'].map { |m| m['body'] }
 
     assert_includes message_bodies, @message.body
   end
 
   test 'should get messages since last message' do
-    post :create, format: :json, channel_id: @channel.key,
-                                 message: { body: 'hi' }
-    last_seen_id = json_body['message']['id']
+    msgs = [ messages(:aloha), messages(:goodbye) ]
+    verify msgs.all? { |m| m.channel == @channel }
+    last_seen_id, new_id = msgs.map(&:id).sort
 
-    post :create, format: :json, channel_id: @channel.key,
-                                 message: { body: 'rockin' }
-    new_id = json_body['message']['id']
-
-    get :since, format: :json, channel_id: @channel.key,
+    get :since, format: :json, channel_id: @other_channel.key,
                                last_seen_id: last_seen_id
     message_ids = json_body['messages'].map { |m| m['id'] }
 
@@ -61,7 +60,7 @@ class MessagesControllerTest < ActionController::TestCase
 
   test 'should delete old messages' do
     Timecop.travel(Time.now + 5.minutes) do
-      post :create, format: :json, channel_id: @channel.key,
+      post :create, format: :json, channel_id: @other_channel.key,
                                    message: { body: 'new_message' }
     end
 

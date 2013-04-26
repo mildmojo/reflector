@@ -1,5 +1,7 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-game:
+client:
   key:  uuid-f33f
+  room: jungle
 
+other_client:
+  key:  uuid-baab
+  room: jungle

@@ -1,12 +1,13 @@
 class Message < ActiveRecord::Base
+  belongs_to :room
   belongs_to :channel
 
-  attr_accessible :body
+  attr_accessible :room, :channel, :body
 
-  validates :channel, presence: true
+  validates :room, presence: true
 
-  def self.for_channel key
-    joins(:channel).where(channels: {key: key})
+  def self.for_channel channel
+    where(room_id: channel.room_id).where('messages.channel_id != ?', channel.id)
   end
 
   def self.since id
@@ -14,5 +15,10 @@ class Message < ActiveRecord::Base
       id = id.id
     end
     where('messages.id > ?', id)
+  end
+
+  def self.cleanup
+    msg_lifetime = Rails.application.config.message_lifetime
+    where('created_at < ?', msg_lifetime.ago).delete_all
   end
 end

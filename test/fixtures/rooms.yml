@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  created_by_channel_id: 1
-  key: MyString
-  friendly_name: MyString
+jungle:
+  created_by_channel: game
+  key:                aaa
+  friendly_name:      jungle
 
-two:
-  created_by_channel_id: 1
-  key: MyString
-  friendly_name: MyString
+rumpus:
+  created_by_channel: game
+  key:                bbb
+  friendly_name:      rumpus

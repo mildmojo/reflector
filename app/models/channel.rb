@@ -4,12 +4,9 @@ class Channel < ActiveRecord::Base
 
   before_create :generate_key
 
-  attr_accessible :key, :name
+  attr_accessible :key, :name, :room
 
-  def cleanup
-    msg_lifetime = Rails.application.config.message_lifetime
-    messages.where('created_at < ?', msg_lifetime.ago).delete_all
-  end
+  validates :room, presence: true
 
   ##############################################################################
   private
