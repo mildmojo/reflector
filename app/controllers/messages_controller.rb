@@ -23,7 +23,7 @@ class MessagesController < ApplicationController
       if message.save
         render json: message
       else
-        render json: { errors: message.errors.messages }
+        render json: { errors: message.errors.full_messages }
       end
     else
       render json: { errors: "Channel not found: #{params[:channel_id]}" }
