@@ -13,4 +13,11 @@ class RoomsController < ApplicationController
       end
     end
   end
+
+  def join
+    room = Room.where(friendly_name: params[:friendly_name]).first
+    channel = Channel.create!(room: room)
+    render json: channel
+  end
+
 end
