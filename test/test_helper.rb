@@ -24,6 +24,10 @@ class ActiveSupport::TestCase
   def verify_false(bool, msg = nil)
     verify !bool, msg
   end
+
+  def json_body
+    JSON.parse(@response.body)
+  end
 end
 
 class ActiveRecord::Base

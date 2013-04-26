@@ -70,13 +70,4 @@ class MessagesControllerTest < ActionController::TestCase
 
     assert_not_include message_bodies, @message.body
   end
-
-
-  ##############################################################################
-  private
-  ##############################################################################
-
-  def json_body
-    JSON.parse(@response.body)
-  end
 end
