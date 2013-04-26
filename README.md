@@ -30,7 +30,8 @@ overhead should be minimal.
 HTTP requests are short-lived so clients need to poll the server to check for
 new messages. With that in mind, applications should be designed with high
 latency in mind. I'd like the crossroads between server performance and user
-expectations to be under three seconds.
+expectations to be under three seconds in the worst case, not accounting for
+network infrastructure problems like 3G dropout.
 
 ## Model
 
@@ -38,21 +39,52 @@ Reflector has three basic units: rooms, channels, and messages.
 
 ### Rooms
 
-A room is a messaging hub. The client who provisions a room will receive special
-messages about other clients joining and leaving the room.
+A room is a messaging hub. The client who provisions a room may have extended
+control over the room in the future.
 
 ### Channels
 
 Channels are transports for messages, connecting clients to rooms. Clients can
 send messages on a channel or poll for newly-arrived messages. Each client gets
-a unique channel upon connection to a room, which should allow for private
-messages from one client to another or direct messages from the room owner to
-a client.
+a unique channel upon connection to a room.
 
 ### Messages
 
-Messages are UTF-8 strings encapsulated in a JSON data structure.
+Messages are UTF-8 strings encapsulated in a JSON data structure. See the
+examples below.
 
-```json
-{ message: { body: 'move 5 north' } }
+Messages are short-lived. By default, they expire after a minute. This is
+configured in [config/initializers/message_lifetime.rb](config/initializers/message_lifetime.rb).
+
+## Example dialogue
+
+```bash
+# Create a room
+client1 POST /rooms
+=> { room: { key: 'room-key' }, channel: { key: 'client1-chan-key' } }
+
+# Send a message to the room
+client1 POST /channels/client1-chan-key { message: { body: 'server says hi' } }
+
+# Connect a second client to the room
+client2 POST /channels { room: { key: 'room-key' } }
+=> { channel: { key: 'client2-chan-key' } }
+
+# Client 2 checks for messages
+client2 GET /channels/client2-chan-key
+=> { messages: [ { id: 5, body: 'server says hi' } ] }
+
+# Client 1 sends a message, client 2's message list is updated
+client1 POST /channels/client1-chan-key { message: { body: 'I live!' } }
+client2 GET /channels/client2-chan-key
+=> { messages: [ { id: 5, body: 'server says hi' }, { id: 6, body: 'I live!' } ] }
+
+# Client 2 checks for new messages in the timeline
+client2 GET /channels/client2-chan-key/since/5
+=> { messages: [ { id: 6, body: 'I live!' } ] }
+
+# Client 2 sends a message to the room, client 1 sees it
+client2 POST /channels/client2-chan-key { message: { body: 'Simpleton.' } }
+client1 GET /channels/client1-chan-key
+=> { messages: [ { id: 7, body: 'Simpleton.' } ] }
 ```
