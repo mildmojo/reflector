@@ -1,5 +1,6 @@
 class Channel < ActiveRecord::Base
   has_many :messages
+  belongs_to :room
 
   before_create :generate_key
 

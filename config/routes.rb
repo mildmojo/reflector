@@ -1,5 +1,7 @@
 Reflector::Application.routes.draw do
 
+  resources :rooms, except: [:new, :edit]
+
   resources :channels, except: [:edit, :update, :new] do
     resources :messages, except: [:edit, :update, :new] do
       collection do
