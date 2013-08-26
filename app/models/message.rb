@@ -2,8 +2,6 @@ class Message < ActiveRecord::Base
   belongs_to :room
   belongs_to :channel
 
-  attr_accessible :room, :channel, :body
-
   validates :room, presence: true
 
   def self.for_channel channel

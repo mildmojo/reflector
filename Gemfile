@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2.11'
+gem 'rails', '~> 4.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -10,6 +10,7 @@ group :development do
   gem 'sqlite3'
   gem 'timecop'
   gem 'test-unit'
+  gem 'test-unit-activesupport'
 end
 
 group :production do
@@ -22,7 +23,7 @@ end
 
 gem 'forgery'
 gem 'rails-api'
-gem 'active_model_serializers', '~> 0.7.0'
+gem 'active_model_serializers', '~> 0.8.0'
 
 gem 'foreman'
 

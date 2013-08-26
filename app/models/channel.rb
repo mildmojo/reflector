@@ -4,8 +4,6 @@ class Channel < ActiveRecord::Base
 
   before_create :generate_key
 
-  attr_accessible :key, :name, :room
-
   validates :room, presence: true
 
   ##############################################################################

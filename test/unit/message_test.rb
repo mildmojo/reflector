@@ -25,7 +25,7 @@ class MessageTest < ActiveSupport::TestCase
 
   test 'should limit messages by channel with for_channel' do
     channel = Channel.new(room: @room)
-    assert_not_include Message.for_channel(channel).all, @message
+    assert_not_include Message.for_channel(channel).to_a, @message
   end
 
   test 'should limit messages by id with since' do
@@ -40,6 +40,6 @@ class MessageTest < ActiveSupport::TestCase
       Message.cleanup
     end
 
-    assert_false Message.exists?(msg)
+    assert_false !!Message.exists?(msg)
   end
 end

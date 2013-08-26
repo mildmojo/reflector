@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
   def index
     channel = Channel.where(key: params[:channel_id]).first
-    messages = Message.for_channel(channel).all
+    messages = Message.for_channel(channel).to_a
 
     render json: messages
   end
@@ -10,7 +10,7 @@ class MessagesController < ApplicationController
     channel = Channel.where(key: params[:channel_id]).first
     messages = Message.for_channel(channel).
                        since(params[:last_seen_id]).
-                       all
+                       to_a
 
     render json: messages
   end
