@@ -27,6 +27,8 @@ gem 'active_model_serializers', '~> 0.8.0'
 
 gem 'foreman'
 
+gem 'rack-cors', require: 'rack/cors'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
