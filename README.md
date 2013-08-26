@@ -51,7 +51,8 @@ a unique channel upon connection to a room.
 ### Messages
 
 Messages are UTF-8 strings encapsulated in a JSON data structure. See the
-examples below.
+examples below. Messages contain a timeline integer `id`, an author integer
+`from_id`, and a string `body`. Author ID 0 is always the room creator.
 
 Messages are short-lived. By default, they expire after a minute. This is
 configured in [config/initializers/message_lifetime.rb](config/initializers/message_lifetime.rb).
@@ -72,19 +73,19 @@ client2 POST /channels { room: { key: 'room-key' } }
 
 # Client 2 checks for messages
 client2 GET /channels/client2-chan-key
-=> { messages: [ { id: 5, body: 'server says hi' } ] }
+=> { messages: [ { id: 5, from_id: 0, body: 'server says hi' } ] }
 
 # Client 1 sends a message, client 2's message list is updated
 client1 POST /channels/client1-chan-key { message: { body: 'I live!' } }
 client2 GET /channels/client2-chan-key
-=> { messages: [ { id: 5, body: 'server says hi' }, { id: 6, body: 'I live!' } ] }
+=> { messages: [ { id: 5, from_id: 0, body: 'server says hi' }, { id: 6, from_id: 0, body: 'I live!' } ] }
 
 # Client 2 checks for new messages in the timeline
 client2 GET /channels/client2-chan-key/since/5
-=> { messages: [ { id: 6, body: 'I live!' } ] }
+=> { messages: [ { id: 6, from_id: 0, body: 'I live!' } ] }
 
 # Client 2 sends a message to the room, client 1 sees it
 client2 POST /channels/client2-chan-key { message: { body: 'Simpleton.' } }
 client1 GET /channels/client1-chan-key
-=> { messages: [ { id: 7, body: 'Simpleton.' } ] }
+=> { messages: [ { id: 7, from_id: 1, body: 'Simpleton.' } ] }
 ```

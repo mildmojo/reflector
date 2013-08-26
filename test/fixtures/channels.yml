@@ -1,7 +1,19 @@
+creator:
+  key:      uuid-b33f
+  room:     jungle
+  from_id:  0
+
 client:
-  key:  uuid-f33f
-  room: jungle
+  key:      uuid-f33f
+  room:     jungle
+  from_id:  1
 
 other_client:
-  key:  uuid-baab
-  room: jungle
+  key:      uuid-baab
+  room:     jungle
+  from_id:  2
+
+empty_creator:
+  key:      uuid-dead
+  room:     empty
+  from_id:  0

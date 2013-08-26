@@ -5,12 +5,11 @@ gem 'rails', '~> 4.0'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-group :development do
+group :development, :test do
   gem 'pry'
   gem 'sqlite3'
   gem 'timecop'
   gem 'test-unit'
-  gem 'test-unit-activesupport'
 end
 
 group :production do

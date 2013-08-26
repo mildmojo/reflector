@@ -1,6 +1,6 @@
 class Room < ActiveRecord::Base
   has_many :channels
-  belongs_to :created_by_channel, class_name: 'Channel', autosave: true
+  belongs_to :created_by_channel, class_name: 'Channel'
 
   before_create :generate_key
   before_create :generate_friendly_name

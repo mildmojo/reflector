@@ -9,3 +9,8 @@ rumpus:
   created_by_channel: game
   key:                bbb
   friendly_name:      rumpus
+
+empty:
+  created_by_channel: empty_creator
+  key:                ccc
+  friendly_name:      empty
